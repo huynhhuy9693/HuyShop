@@ -14,7 +14,7 @@ public class CategoryController {
     @Autowired
     private CategoryService service;
 
-    @GetMapping("/category")
+    @GetMapping("/categories")
     public ResponseEntity getCategories(Category category)
     {
          return new ResponseEntity<>(service.getCategories(category), HttpStatus.OK) ;
@@ -34,13 +34,13 @@ public class CategoryController {
         return new ResponseEntity<>(service.createCategory(category), HttpStatus.OK);
     }
 
-    @DeleteMapping("category/{id}")
+    @DeleteMapping("category/delete/{id}")
     public void deleteCategory(@PathVariable("id") int id )
     {
         service.deleteCategory(id);
     }
 
-    @PutMapping("category/{id}")
+    @PutMapping("category/update/{id}")
      public ResponseEntity  updateCAtegory(@RequestBody Category category ,@PathVariable int id)
     {
         if(category.getId()==id)

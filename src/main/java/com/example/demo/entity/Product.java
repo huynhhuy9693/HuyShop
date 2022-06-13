@@ -1,6 +1,5 @@
 package com.example.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +21,7 @@ public class Product {
 //    description varchar,
 //    quantity integer,
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
     @Column(name = "name")
@@ -37,7 +37,6 @@ public class Product {
     @Column(name ="status")
     private boolean status;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "category_id" )
     private Category category;
