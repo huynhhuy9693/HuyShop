@@ -21,7 +21,7 @@ public class CategoryController {
     }
 
     @GetMapping("/category/{id}")
-    public ResponseEntity getCateById(@PathVariable("id") int id)
+    public ResponseEntity getCateById(@PathVariable("id") long id)
     {
         return new ResponseEntity<>(service.getCateById(id), HttpStatus.OK);
 //        return repository.findById(id).toString() + id;
@@ -35,13 +35,13 @@ public class CategoryController {
     }
 
     @DeleteMapping("category/delete/{id}")
-    public void deleteCategory(@PathVariable("id") int id )
+    public void deleteCategory(@PathVariable("id") long id )
     {
         service.deleteCategory(id);
     }
 
     @PutMapping("category/update/{id}")
-     public ResponseEntity  updateCAtegory(@RequestBody Category category ,@PathVariable int id)
+     public ResponseEntity  updateCAtegory(@RequestBody Category category ,@PathVariable long id)
     {
         if(category.getId()==id)
         {

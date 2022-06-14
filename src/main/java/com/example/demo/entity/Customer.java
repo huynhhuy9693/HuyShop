@@ -6,37 +6,30 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @Data
-public class UserTb {
-
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
     @Column(name = "name")
-    String name;
+    private String name;
     @Column(name = "dob")
-    Date dob;
+    private Date dob;
     @Column(name = "phone")
-    String phone;
+    private String phone;
     @Column(name = "email")
-    String email;
+    private String email;
     @Column(name = "address")
-    String address;
-    @Column(name = "status")
-    boolean status;
+    private String address;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
-
-    @OneToOne(mappedBy = "user")
-    private Cart cart;
-
+    @OneToMany(mappedBy = "customer")
+    private List<Cart> carts;
 
 }

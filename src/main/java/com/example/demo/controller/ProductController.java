@@ -20,12 +20,12 @@ public class ProductController {
     }
 
     @GetMapping("/product/{id}")
-    public ResponseEntity getProduct(@PathVariable int id)
+    public ResponseEntity getProduct(@PathVariable long id)
     {
         return new ResponseEntity<>(service.getProductById(id), HttpStatus.OK);
     }
     @DeleteMapping("/product/delete/{id}")
-    public  void deleteProduct(@PathVariable int id)
+    public  void deleteProduct(@PathVariable long id)
     {
         service.deleteProductById(id);
     }
@@ -37,7 +37,7 @@ public class ProductController {
     }
 
     @PutMapping("/product/update/{id}")
-    public ResponseEntity updateProducts(@RequestBody Product product , @PathVariable int id)
+    public ResponseEntity updateProducts(@RequestBody Product product , @PathVariable long id)
     {
 
         return new ResponseEntity<>(service.updateProduts(id,product),HttpStatus.OK);

@@ -19,7 +19,7 @@ public class UserService {
         return repository.findAll();
     }
 
-    public Optional<UserTb> getUserById(int id)
+    public Optional<UserTb> getUserById(long id)
     {
         return repository.findById(id);
     }
@@ -29,12 +29,12 @@ public class UserService {
         return repository.save(user);
     }
 
-    public void deleteUser(int id)
+    public void deleteUser(long id)
     {
         repository.deleteById(id);
     }
 
-    public UserTb updateUser(UserTb user , int id)
+    public UserTb updateUser(UserTb user , long id)
     {
         repository.findById(id);
         user.setName(user.getName());

@@ -21,12 +21,12 @@ public class ProductService {
         return  repository.findAll();
     }
 
-    public Optional<Product> getProductById(int id)
+    public Optional<Product> getProductById(long id)
     {
         return repository.findById(id);
     }
 
-    public void deleteProductById(int id)
+    public void deleteProductById(long id)
     {
         repository.deleteById(id);
     }
@@ -37,7 +37,7 @@ public class ProductService {
         return repository.save(product);
     }
 
-    public Product updateProduts(int id, Product product)
+    public Product updateProduts(long id, Product product)
     {
         repository.findById(id);
         product.setName(product.getName());

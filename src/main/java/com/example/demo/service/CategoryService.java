@@ -21,7 +21,7 @@ public class CategoryService {
     }
 
 
-    public Optional<Category> getCateById(@PathVariable("id") int id)
+    public Optional<Category> getCateById(@PathVariable("id") long id)
     {
 //        return new ResponseEntity<>(repository.getById(id), HttpStatus.OK);
 //        return repository.findById(id).toString() + id;
@@ -38,13 +38,13 @@ public class CategoryService {
 
     }
 
-    public void deleteCategory(@PathVariable("id") int id )
+    public void deleteCategory(@PathVariable("id") long id )
     {
         repository.deleteById(id);
     }
 
 
-    public Category updateCAtegory(@RequestBody Category category ,@PathVariable int id)
+    public Category updateCAtegory(@RequestBody Category category ,@PathVariable long id)
     {
         if(category.getId()==id)
         {

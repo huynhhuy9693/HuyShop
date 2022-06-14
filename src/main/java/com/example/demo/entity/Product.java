@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Setter
@@ -23,11 +24,11 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private long id;
     @Column(name = "name")
     private String name;
     @Column(name = "price")
-    private long price;
+    private BigDecimal price;
     @Column(name="img_url")
     private String img_url;
 //    @Column(name = "description")
@@ -36,10 +37,14 @@ public class Product {
     private int quantity;
     @Column(name ="status")
     private boolean status;
+    @Column(name = "product_id")
+    int productId;
 
     @ManyToOne
     @JoinColumn(name = "category_id" )
     private Category category;
+
+
 
 
 
