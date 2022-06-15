@@ -1,52 +1,71 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Product;
-import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
     @Autowired
-     private ProductRepository repository;
-    @Autowired
-    private CategoryRepository repositoryCategory;
+    private ProductRepository repository;
 
     public List<Product> getProducts()
     {
-        return  repository.findAll();
+        return repository.findAll();
+
     }
 
-    public Optional<Product> getProductById(long id)
+
+    public Product getProductById(@PathVariable("id") long id)
     {
-        return repository.findById(id);
+
+        for(Product product : repository.findAll())
+        {
+            if(product.getId()==id)
+            {
+//                System.out.println("=="+category);
+                return product;
+
+            }
+        }
+        return null;
+    }
+//    public boolean isIdExits(Product product)
+//    {
+//        return getProductById(product.getId())==null;
+//    }
+
+
+    public Product saveProduct(@RequestBody Product product)
+    {
+
+        return repository.save(product) ;
+
     }
 
-    public void deleteProductById(long id)
+    public void deleteProduct(@PathVariable("id") long id )
     {
         repository.deleteById(id);
     }
 
-    public Product saveProducts(Product product)
-    {
-        repositoryCategory.findAll();
-        return repository.save(product);
-    }
 
-    public Product updateProduts(long id, Product product)
-    {
-        repository.findById(id);
-        product.setName(product.getName());
-        product.setPrice(product.getPrice());
-        product.setQuantity(product.getQuantity());
-        product.setImg_url(product.getImg_url());
-        product.setStatus(product.isStatus());
-        product.setCategory(product.getCategory());
-        return repository.save(product);
+
+
+    public Product findByName(String name) {
+        for(Product product : repository.findAll()){
+            if(product.getName().equalsIgnoreCase(name)){
+                return product;
+            }
+        }
+        return null;
+    }
+    public boolean isProductExist(Product product) {
+        return findByName(product.getName())!=null;
     }
 
 

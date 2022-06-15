@@ -1,12 +1,13 @@
 package com.example.demo.service;
 
-import com.example.demo.repository.CartItemRepository;
 import com.example.demo.entity.CartItem;
+import com.example.demo.repository.CartItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CartItemService
@@ -17,26 +18,39 @@ public class CartItemService
     public List<CartItem> getCartItems()
     {
         return repository.findAll();
+
     }
 
-    public Optional<CartItem> getCartItemById(Long id)
+
+    public CartItem getCartItemById(@PathVariable("id") long id)
     {
-        return repository.findById(id);
-    }
 
-    public CartItem saveCart(CartItem cartItem)
+        for(CartItem  cartItem: repository.findAll())
+        {
+            if(cartItem.getId()==id)
+            {
+//                System.out.println("=="+category);
+                return cartItem;
+
+            }
+        }
+        return null;
+    }
+    public boolean isIdExits(CartItem cartItem)
     {
-        return repository.save(cartItem);
+        return getCartItemById(cartItem.getId())==null;
     }
 
-    public void deleteCartItem(Long id)
+
+    public CartItem saveCartItem(@RequestBody CartItem cartItem)
+    {
+
+        return repository.save(cartItem) ;
+
+    }
+
+    public void deleteCartItem(@PathVariable("id") long id )
     {
         repository.deleteById(id);
-    }
-
-    public CartItem editCartItem(CartItem cartItem, Long id)
-    {
-        repository.findById(id);
-        return repository.save(cartItem);
     }
 }

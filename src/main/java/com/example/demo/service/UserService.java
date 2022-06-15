@@ -4,9 +4,10 @@ import com.example.demo.entity.UserTb;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -17,35 +18,55 @@ public class UserService {
     public List<UserTb> getUsers()
     {
         return repository.findAll();
+
     }
 
-    public Optional<UserTb> getUserById(long id)
+
+    public UserTb getUserById(@PathVariable("id") long id)
     {
-        return repository.findById(id);
-    }
 
-    public UserTb saveUser(UserTb user)
+        for(UserTb user : repository.findAll())
+        {
+            if(user.getId()==id)
+            {
+//                System.out.println("=="+category);
+                return user;
+
+            }
+        }
+        return null;
+    }
+    public boolean isIdExits(UserTb user)
     {
-        return repository.save(user);
+        return getUserById(user.getId())==null;
     }
 
-    public void deleteUser(long id)
+
+    public UserTb saveUser(@RequestBody UserTb user)
+    {
+
+        return repository.save(user) ;
+
+    }
+
+    public void deleteUser(@PathVariable("id") Long id )
     {
         repository.deleteById(id);
     }
 
-    public UserTb updateUser(UserTb user , long id)
-    {
-        repository.findById(id);
-        user.setName(user.getName());
-        user.setDob(user.getDob());
-        user.setAddress(user.getAddress());
-        user.setEmail(user.getEmail());
-        user.setPhone(user.getPhone());
-//        user.setRole(user.getRole());
-        user.setStatus(user.isStatus());
-        return repository.save(user);
 
+
+
+    public UserTb findByName(String name) {
+        for(UserTb user : repository.findAll()){
+            if(user.getName().equalsIgnoreCase(name)){
+                return user;
+            }
+        }
+        return null;
+    }
+    public boolean isUserExist(UserTb user) {
+        return findByName(user.getName())!=null;
     }
 
 }

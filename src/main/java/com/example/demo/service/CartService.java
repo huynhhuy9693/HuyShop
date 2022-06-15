@@ -1,12 +1,13 @@
 package com.example.demo.service;
 
-import com.example.demo.repository.CartRepository;
 import com.example.demo.entity.Cart;
+import com.example.demo.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CartService {
@@ -17,27 +18,41 @@ public class CartService {
     public List<Cart> getCarts()
     {
         return repository.findAll();
+
     }
 
-    public Optional<Cart> getCartById(Long id)
+
+    public Cart getCartById(@PathVariable("id") long id)
     {
-        return repository.findById(id);
-    }
 
-    public Cart saveCart(Cart cart)
+        for(Cart  cart: repository.findAll())
+        {
+            if(cart.getId()==id)
+            {
+//                System.out.println("=="+category);
+                return cart;
+
+            }
+        }
+        return null;
+    }
+    public boolean isIdExits(Cart cart)
     {
-        return repository.save(cart);
+        return getCartById(cart.getId())==null;
     }
 
-    public void deleteCart(Long id)
+
+    public Cart saveCart(@RequestBody Cart cart)
+    {
+
+        return repository.save(cart) ;
+
+    }
+
+    public void deleteCart(@PathVariable("id") long id )
     {
         repository.deleteById(id);
     }
 
-    public Cart editCart(Cart cart, Long id)
-    {
-        repository.findById(id);
-        cart.setStatus(cart.isStatus());
-        return repository.save(cart);
+
     }
-}

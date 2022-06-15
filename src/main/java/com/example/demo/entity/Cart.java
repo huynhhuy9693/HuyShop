@@ -22,9 +22,9 @@ public class Cart {
     @Column(name = "order_number")
     private String orderNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+//    @ManyToOne
+//    @JoinColumn(name = "customer_id")
+//    private Customer customer;
 
 
     @OneToOne()

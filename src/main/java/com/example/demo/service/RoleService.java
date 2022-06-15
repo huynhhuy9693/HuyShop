@@ -4,9 +4,10 @@ import com.example.demo.entity.Role;
 import com.example.demo.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RoleService {
@@ -16,28 +17,55 @@ public class RoleService {
 
     public List<Role> getRoles()
     {
-        return  repository.findAll();
+        return repository.findAll();
+
     }
 
-    public Optional<Role> getRoleById(int id )
+
+    public Role getRoleById(@PathVariable("id") int id)
     {
-        return  repository.findById(id);
+
+        for(Role role : repository.findAll())
+        {
+            if(role.getId()==id)
+            {
+//                System.out.println("=="+category);
+                return role;
+
+            }
+        }
+        return null;
+    }
+    public boolean isIdExits(Role role)
+    {
+        return getRoleById(role.getId())==null;
     }
 
-    public Role saveRole(Role role)
+
+    public Role saveRole(@RequestBody Role role)
     {
-        return repository.save(role);
+
+        return repository.save(role) ;
+
     }
 
-    public void deteleRole(int id)
+    public void deleteRole(@PathVariable("id") int id )
     {
-         repository.deleteById(id);
+        repository.deleteById(id);
     }
 
-    public Role updateRole(Role role , int id)
-    {
-        repository.findById(id);
-        role.setName(role.getName());
-         return repository.save(role);
+
+
+
+    public Role findByName(String name) {
+        for(Role role : repository.findAll()){
+            if(role.getName().equalsIgnoreCase(name)){
+                return role;
+            }
+        }
+        return null;
+    }
+    public boolean isCategoryExist(Role role) {
+        return findByName(role.getName())!=null;
     }
 }

@@ -5,33 +5,44 @@ import com.example.demo.entity.Category;
 import com.example.demo.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CategoryService {
     @Autowired
     private CategoryRepository repository;
 
-    public List<Category> getCategories(Category category)
+    public List<Category> getCategories()
     {
-        return  repository.findAll();
+        return repository.findAll();
+
     }
 
 
-    public Optional<Category> getCateById(@PathVariable("id") long id)
+    public Category getCateById(@PathVariable("id") long id)
     {
-//        return new ResponseEntity<>(repository.getById(id), HttpStatus.OK);
-//        return repository.findById(id).toString() + id;
-        Optional<Category> otp = repository.findById(id) ;
-        return otp;
 
+        for(Category category : repository.findAll())
+        {
+            if(category.getId()==id)
+            {
+//                System.out.println("=="+category);
+                return category;
 
+            }
+        }
+        return null;
+    }
+    public boolean isIdExits(Category category)
+    {
+        return getCateById(category.getId())==null;
     }
 
-    public Category createCategory(@RequestBody Category category)
+
+    public Category saveCategory(@RequestBody Category category)
     {
 
         return repository.save(category) ;
@@ -44,16 +55,18 @@ public class CategoryService {
     }
 
 
-    public Category updateCAtegory(@RequestBody Category category ,@PathVariable long id)
-    {
-        if(category.getId()==id)
-        {
-            repository.findById(id);
-            category.setName(category.getName());
-            repository.save(category);
 
+
+    public Category findByName(String name) {
+        for(Category category : repository.findAll()){
+            if(category.getName().equalsIgnoreCase(name)){
+                return category;
+            }
         }
-        return repository.save(category);
+        return null;
+    }
+    public boolean isCategoryExist(Category category) {
+        return findByName(category.getName())!=null;
     }
 
 }
