@@ -1,8 +1,6 @@
 package com.example.demo.entity;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,7 +8,9 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Role {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,8 @@ public class Role {
         @Column(name = "name")
         private String name;
 
-        @OneToMany(mappedBy = "role" , cascade = CascadeType.ALL)
+        @OneToMany(mappedBy = "roleId" , cascade = CascadeType.ALL)
         private List<UserTb> user;
+
 
 }

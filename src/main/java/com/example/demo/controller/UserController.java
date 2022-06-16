@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.UserTb;
+import com.example.demo.service.RoleService;
 import com.example.demo.service.UserService;
+import dto.UserTbDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,12 @@ public class UserController {
 
     @Autowired
     private UserService service;
+    @Autowired
+    private ModelMapper modelMapper;
+    @Autowired
+    private RoleService roleService;
+
+
 
     @GetMapping("/users")
     public ResponseEntity<List<UserTb>> findUsers(UserTb user)
@@ -32,30 +41,32 @@ public class UserController {
         System.out.println("Fetching User with id " + id);
 
         UserTb users = service.getUserById(id);
-//        System.out.println(category);
+
         if (users==null) {
             System.out.println("User with id " + id + " not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>( service.getUserById(id), HttpStatus.OK);
-//        return new ResponseEntity<>(service.getCateById(id), HttpStatus.OK);
-//        return repository.findById(id).toString() + id;
+
 
     }
 
     @PostMapping("user/create")
-    public ResponseEntity  createUser(@RequestBody UserTb user)
+    public ResponseEntity  createUser(@RequestBody UserTbDTO userTbDTO )
     {
-//        return new ResponseEntity<>(service.createCategory(category), HttpStatus.OK);
-        System.out.println("Creating User " +user.getName());
 
-        if (service.isUserExist(user)) {
-            System.out.println("A User with name " + user.getName() + " already exist");
+        System.out.println("Creating User " +userTbDTO.getName());
+
+        if (service.isUserExist(userTbDTO)) {
+            System.out.println("A User with name " + userTbDTO.getName() + " already exist");
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setLocation(ucBuilder.path("/category/{id}").buildAndExpand(category.getId()).toUri());
-        return new ResponseEntity<>(service.saveUser(user), HttpStatus.CREATED);
+
+        UserTb userTbRequest = modelMapper.map(userTbDTO, UserTb.class);
+        UserTb userTb = service.saveUser(userTbRequest);
+        // convert entity to DTO
+        UserTbDTO userTbResponse = modelMapper.map(userTb, UserTbDTO.class);
+         return new ResponseEntity<UserTbDTO>(userTbResponse, HttpStatus.CREATED);
     }
 
     @DeleteMapping("user/delete/{id}")
@@ -74,7 +85,7 @@ public class UserController {
     }
 
     @PutMapping("user/update/{id}")
-    public ResponseEntity<UserTb>  updateUser(@PathVariable long id, @RequestBody UserTb user) {
+    public ResponseEntity<UserTbDTO>  updateUser(@PathVariable long id, @RequestBody UserTbDTO userTbDTO) {
 
         System.out.println("Updating User " + id);
 
@@ -82,19 +93,24 @@ public class UserController {
 //        System.out.println("---"+currentCategory);
         if (currentUser==null) {
             System.out.println("User with id " + id + " not found");
-            return new ResponseEntity<UserTb>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<UserTbDTO>(HttpStatus.NOT_FOUND);
         }
 
-        currentUser.setName(user.getName());
-        currentUser.setDob(user.getDob());
-        currentUser.setAddress(user.getAddress());
-        currentUser.setPhone(user.getPhone());
-        currentUser.setEmail(user.getEmail());
-        currentUser.setRole(user.getRole());
-        currentUser.setUserName(user.getUserName());
-        currentUser.setPassWord(user.getPassWord());
+        currentUser.setName(userTbDTO.getName());
+        currentUser.setDob(userTbDTO.getDob());
+        currentUser.setAddress(userTbDTO.getAddress());
+        currentUser.setPhone(userTbDTO.getPhone());
+        currentUser.setEmail(userTbDTO.getEmail());
+        currentUser.setRoleId(roleService.getRoleById(userTbDTO.getRoleDTO().getId()));
+        currentUser.setUserName(userTbDTO.getUserName());
+        currentUser.setPassWord(userTbDTO.getPassWord());
 
-        return new ResponseEntity<>(service.saveUser(currentUser), HttpStatus.OK);
+        UserTb userTbRequest = modelMapper.map(userTbDTO, UserTb.class);
+        UserTb userTb = service.saveUser(userTbRequest);
+        // convert entity to DTO
+        UserTbDTO userTbResponse = modelMapper.map(userTb, UserTbDTO.class);
+        return new ResponseEntity<UserTbDTO>(userTbResponse, HttpStatus.OK);
+
     }
 
 

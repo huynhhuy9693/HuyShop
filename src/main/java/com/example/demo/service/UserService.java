@@ -1,11 +1,11 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.UserTb;
+import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
+import dto.UserTbDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -14,15 +14,18 @@ public class UserService {
 
     @Autowired
     private UserRepository repository;
+    @Autowired
+    RoleRepository roleRepository;
 
     public List<UserTb> getUsers()
     {
+        roleRepository.findAll();
         return repository.findAll();
 
     }
 
 
-    public UserTb getUserById(@PathVariable("id") long id)
+    public UserTb getUserById(long id)
     {
 
         for(UserTb user : repository.findAll())
@@ -42,14 +45,15 @@ public class UserService {
     }
 
 
-    public UserTb saveUser(@RequestBody UserTb user)
+    public UserTb saveUser(UserTb user)
     {
 
+        System.out.println("----");
         return repository.save(user) ;
 
     }
 
-    public void deleteUser(@PathVariable("id") Long id )
+    public void deleteUser(Long id)
     {
         repository.deleteById(id);
     }
@@ -65,7 +69,7 @@ public class UserService {
         }
         return null;
     }
-    public boolean isUserExist(UserTb user) {
+    public boolean isUserExist(UserTbDTO user) {
         return findByName(user.getName())!=null;
     }
 

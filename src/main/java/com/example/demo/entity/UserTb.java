@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +18,7 @@ public class UserTb {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
     @Column(name = "name")
     String name;
     @Column(name = "dob")
@@ -34,13 +35,16 @@ public class UserTb {
     private String userName;
     @Column(name = "pass_word")
     private String passWord;
+//    @Column(name = "role")
+//    private int role;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "role_id")
-    private Role role;
+    private Role roleId;
 
-    @OneToOne(mappedBy = "user")
-    private Cart cart;
+//    @OneToOne(mappedBy = "user")
+//    private Cart cart;
 
 
 }
