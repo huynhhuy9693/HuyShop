@@ -3,7 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.Product;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.ProductService;
-import dto.ProductDTO;
+import com.example.demo.dto.ProductDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

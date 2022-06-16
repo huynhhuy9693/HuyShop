@@ -3,7 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.UserTb;
 import com.example.demo.service.RoleService;
 import com.example.demo.service.UserService;
-import dto.UserTbDTO;
+import com.example.demo.dto.UserTbDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

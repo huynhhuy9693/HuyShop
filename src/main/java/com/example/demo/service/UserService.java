@@ -3,7 +3,7 @@ package com.example.demo.service;
 import com.example.demo.entity.UserTb;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
-import dto.UserTbDTO;
+import com.example.demo.dto.UserTbDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
