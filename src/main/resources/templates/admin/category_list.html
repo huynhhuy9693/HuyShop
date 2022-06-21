@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang = xmlns:th="http://www.thymeleaf.org" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>CATEGORY-LIST</h1>
+    <a th:href="@{/admin/create_category}">add new </a>
+    <table border="1">
+        <tr>
+            <td>ID</td>
+            <td>NAME</td>
+            <td>ACTION</td>
+        </tr>
+        <tr th:each="item : ${categories}">
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.name} "></td>
+            <td><a th:href="@{|/admin/category/details/${item.id}|}">update</a>|<a th:href="@{|/admin/category/delete/${item.id}|}">delete</a></td>
+        </tr>
+    </table>
+</body>
+</html>

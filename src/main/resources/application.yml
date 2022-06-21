@@ -7,6 +7,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL95Dialect
+  application:
+    name: huy-shop
   data:
     rest:
       base-path: /api
@@ -19,3 +21,11 @@ spring:
     username: postgres
     password: 123456
     driver-class-name: org.postgresql.Driver
+
+server:
+  port: 8088
+
+#eureka:
+#  client:
+#    service-url:
+#      default-zone: 'http://localhost:8761/eureka'

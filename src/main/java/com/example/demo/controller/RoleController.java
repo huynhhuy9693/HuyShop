@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("/api")
+@RestController
+@RequestMapping("/admin")
 public class RoleController {
 
     @Autowired

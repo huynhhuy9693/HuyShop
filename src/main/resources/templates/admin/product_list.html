@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang = xmlns:th="http://www.thymeleaf.org" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<h1>PRODUCTS-LIST</h1>
+<a th:href="@{/admin/create_product}">add new </a>
+<table border="1">
+    <tr>
+        <td>ID</td>
+        <td>NAME</td>
+        <td>PRICE</td>
+        <td>IMG</td>
+        <td>QUANTITY</td>
+        <td>STATUS</td>
+<!--        <td>CATEGORY</td>-->
+        <td>ACTION</td>
+    </tr>
+    <tr th:each="item : ${products}">
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.name} "></td>
+        <td th:text="${item.price} "></td>
+        <td th:text="${item.img_url} "></td>
+        <td th:text="${item.quantity} "></td>
+        <td th:text="${item.status}? 'Active':'Not Active' "></td>
+<!--        <td th:text="${item.category.name}"></td>-->
+        <td><a th:href="@{|/admin/product/details/${item.id}|}">update</a>|<a th:href="@{|/admin/product/delete/${item.id}|}">delete</a></td>
+    </tr>
+</table>
+</body>
+</html>
