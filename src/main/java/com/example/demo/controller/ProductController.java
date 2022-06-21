@@ -12,8 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("/admin")
 public class ProductController {
@@ -67,62 +65,70 @@ public class ProductController {
     }
 
     @PostMapping("product/create")
-    public String  createProduct(@ModelAttribute("product") ProductDTO productDTO, Model model )
+    public String  createProduct( Model model,@ModelAttribute("product") Product product )
     {
 
-        System.out.println("Creating Product " +productDTO.getName());
-        System.out.println(productDTO);
+        System.out.println("Creating Product " +product.getName());
 
 //        if (service.isProductExist(productDTO)) {
 //            System.out.println("A Product with name " + productDTO.getName() + " already exist");
 //            return new ResponseEntity<>(HttpStatus.CONFLICT);
 //        }
-
-        Product productRequest = modelMapper.map(productDTO, Product.class);
-        Product product = service.saveProduct(productRequest);
-        // convert entity to DTO
-        ProductDTO productResponse = modelMapper.map(product, ProductDTO.class);
+//        Product productRequest = modelMapper.map(productDTO, Product.class);
+//        Product product = service.saveProduct(productRequest);
+//        // convert entity to DTO
+//        ProductDTO productResponse = modelMapper.map(product, ProductDTO.class);
 //        return new ResponseEntity<ProductDTO>(productResponse, HttpStatus.CREATED);
-        model.addAttribute("categories", categoryService.getCategories());
+//        model.addAttribute("categories", categoryService.getCategories());
+        service.saveProduct(product);
         return "redirect:/admin/products";
     }
 
-    @DeleteMapping("product/delete/{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable("id") long id )
+    @GetMapping ("product/delete/{id}")
+    public String deleteProduct(@PathVariable("id") long id )
     {
         System.out.println("Fetching & Deleting Products with id " + id);
         Product product = service.getProductById(id);
-        if (product==null) {
-            System.out.println("Unable to delete. Product with id " + id + " not found");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+//        if (product==null) {
+//            System.out.println("Unable to delete. Product with id " + id + " not found");
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
         service.deleteProduct(id);
-        return new ResponseEntity<Product>(HttpStatus.NO_CONTENT);
+//        return new ResponseEntity<Product>(HttpStatus.NO_CONTENT);
+        return "redirect:/admin/products";
+    }
+    @GetMapping("product/details/{id}")
+    public String detailProduct(@PathVariable Long id, Model model)
+    {
+        System.out.println("product id " + id);
+        model.addAttribute("product",service.getProductById(id));
+        model.addAttribute("categories",categoryService.getCategories());
+        return "admin/update_product.html";
     }
 
-    @PutMapping("product/update/{id}")
-    public ResponseEntity<ProductDTO> updateProduct(@PathVariable long id, @RequestBody ProductDTO productDTO) {
+    @PostMapping("product/update/{id}")
+    public String updateProduct(@RequestParam ("id") long id, @ModelAttribute("product") Product product) {
 
         System.out.println("Updating Product " + id);
 
         Product currentProduct = service.getProductById(id);
-        if (currentProduct==null) {
-            System.out.println("Product with id " + id + " not found");
-            return new ResponseEntity<ProductDTO>(HttpStatus.NOT_FOUND);
-        }
+//        if (currentProduct==null) {
+//            System.out.println("Product with id " + id + " not found");
+//            return new ResponseEntity<ProductDTO>(HttpStatus.NOT_FOUND);
+//        }
 
-        currentProduct.setName(productDTO.getName());
-        currentProduct.setPrice(productDTO.getPrice());
-        currentProduct.setQuantity(productDTO.getQuantity());
-        currentProduct.setStatus(productDTO.isStatus());
-        currentProduct.setImg_url(productDTO.getImg_url());
-        currentProduct.setCategory(categoryService.getCategoryById(productDTO.getId()));
-
-
-        Product productRequest = modelMapper.map(productDTO, Product.class);
-        Product product = service.saveProduct(productRequest);
-        // convert entity to DTO
-        ProductDTO productResponse = modelMapper.map(product, ProductDTO.class);
-        return new ResponseEntity<ProductDTO>(productResponse,HttpStatus.OK);
+//        currentProduct.setName(productDTO.getName());
+//        currentProduct.setPrice(productDTO.getPrice());
+//        currentProduct.setQuantity(productDTO.getQuantity());
+//        currentProduct.setStatus(productDTO.isStatus());
+//        currentProduct.setImg_url(productDTO.getImg_url());
+//        currentProduct.setCategory(categoryService.getCategoryById(productDTO.getId()));
+//        Product productRequest = modelMapper.map(productDTO, Product.class);
+//        Product product = service.saveProduct(productRequest);
+//        // convert entity to DTO
+//        ProductDTO productResponse = modelMapper.map(product, ProductDTO.class);
+//        return new ResponseEntity<ProductDTO>(productResponse,HttpStatus.OK);
+        service.saveProduct(product);
+        return "redirect:/admin/products";
     }
 }

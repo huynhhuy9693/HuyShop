@@ -18,17 +18,17 @@
         <td>IMG</td>
         <td>QUANTITY</td>
         <td>STATUS</td>
-<!--        <td>CATEGORY</td>-->
+        <td>CATEGORY</td>
         <td>ACTION</td>
     </tr>
     <tr th:each="item : ${products}">
         <td th:text="${item.id}"></td>
         <td th:text="${item.name} "></td>
         <td th:text="${item.price} "></td>
-        <td th:text="${item.img_url} "></td>
+        <td><img th:src="${item.img_url}" width="150px" height="165px"></td>
         <td th:text="${item.quantity} "></td>
         <td th:text="${item.status}? 'Active':'Not Active' "></td>
-<!--        <td th:text="${item.category.name}"></td>-->
+        <td th:text="${item.category.name}"></td>
         <td><a th:href="@{|/admin/product/details/${item.id}|}">update</a>|<a th:href="@{|/admin/product/delete/${item.id}|}">delete</a></td>
     </tr>
 </table>
