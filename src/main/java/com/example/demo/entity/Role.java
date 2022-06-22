@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,9 +19,18 @@ public class Role {
         private int id ;
         @Column(name = "name")
         private String name;
+        @ColumnDefault("true")
+        @Column(name = "status")
+        private boolean status;
 
         @OneToMany(mappedBy = "roleId" , cascade = CascadeType.ALL)
         private List<UserTb> user;
 
+        @PrePersist
+        void onPrePersist() {
+                if (status==false) {
+                        status=true;
+                }
+        }
 
 }

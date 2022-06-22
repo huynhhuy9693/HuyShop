@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang = xmlns:th="http://www.thymeleaf.org" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HuyShop</title>
+</head>
+<body>
+<form th:object="${user}" th:action="@{/admin/user/create}" method="post">
+    <table>
+        <tr>
+            <td>USERNAME</td>
+            <td><input type="text" th:field="*{userName}"></td>
+        </tr>
+        <tr>
+            <td>PASSWORD</td>
+            <td><input type="text" th:field="*{passWord}"></td>
+        </tr>
+        <tr>
+            <td>ROLE</td>
+            <td >
+                <select th:field="*{roleId}">
+                    <option th:each="item : ${roles}" th:value="${item.id}" th:text="${item.name}" ></option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <button type="submit" value="add">add</button>
+    <button type="reset" value="reset">reset</button>
+</form>
+</body>
+</html>

@@ -8,28 +8,34 @@
     <title>HuyShop</title>
 </head>
 <body>
-<h1>PRODUCTS-LIST</h1>
-<a th:href="@{/admin/create_product}">add new </a>
+<h1>USER-LIST</h1>
+<a th:href="@{/admin/create_user}">add new </a>
 <table border="1">
     <tr>
         <td>ID</td>
         <td>NAME</td>
-        <td>PRICE</td>
-        <td>IMG</td>
-        <td>QUANTITY</td>
+        <td>DOB</td>
+        <td>PHONE</td>
+        <td>EMAIL</td>
+        <td>ADDRESS</td>
+        <td>USERNAME</td>
+        <td>PASSWORD</td>
         <td>STATUS</td>
-        <td>CATEGORY</td>
+        <td>ROLE</td>
         <td>ACTION</td>
     </tr>
-    <tr th:each="item : ${products}">
+    <tr th:each="item : ${users}">
         <td th:text="${item.id}"></td>
         <td th:text="${item.name} "></td>
-        <td th:text="${item.price} "></td>
-        <td><img th:src="${item.img_url}" width="150px" height="165px"></td>
-        <td th:text="${item.quantity} "></td>
+        <td th:text="${item.dob} "></td>
+        <td th:text="${item.phone} "></td>
+        <td th:text="${item.email} "></td>
+        <td th:text="${item.address}"></td>
+        <td th:text="${item.userName}"></td>
+        <td th:text="${item.passWord}"></td>
         <td th:text="${item.status}? 'Active':'Not Active' "></td>
-        <td th:text="${item.category.name}"></td>
-        <td><a th:href="@{|/admin/product/details/${item.id}|}">update</a></td>
+        <td th:text="${item.roleId.name}"></td>
+        <td><a th:href="@{|/admin/user/details/${item.id}|}">update</a></td>
     </tr>
 </table>
 </body>

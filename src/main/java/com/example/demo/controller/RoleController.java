@@ -1,16 +1,19 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.Category;
 import com.example.demo.entity.Role;
 import com.example.demo.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/admin")
 public class RoleController {
 
@@ -18,14 +21,24 @@ public class RoleController {
     private RoleService service;
 
     @GetMapping("/roles")
-    public ResponseEntity<List<Role>> findRoles(Role role)
+    public String findRoles(Model model)
     {
-        List<Role> roleList = service.getRoles();
-        if(roleList.isEmpty())
-        {
-            return new ResponseEntity<List<Role>>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<List<Role>>(roleList, HttpStatus.OK) ;
+        model.addAttribute("roles", service.getRoles());
+//        if(roleList.isEmpty())
+//        {
+//            return new ResponseEntity<List<Role>>(HttpStatus.NO_CONTENT);
+//        }
+//        return new ResponseEntity<List<Role>>(roleList, HttpStatus.OK) ;
+        return "/admin/role_list";
+    }
+
+    @GetMapping("/create_role")
+    public String showAddRole(Model model)
+    {
+
+        Role role = new Role();
+        model.addAttribute("role", role);
+        return "admin/create_role";
     }
 
     @GetMapping("/role/{id}")
@@ -46,18 +59,16 @@ public class RoleController {
     }
 
     @PostMapping("role/create")
-    public ResponseEntity  createRole(@RequestBody Role role)
+    public String  createRole(@ModelAttribute("role") Role role)
     {
 //        return new ResponseEntity<>(service.createCategory(category), HttpStatus.OK);
         System.out.println("Creating Role " +role.getName());
-
-        if (service.isCategoryExist(role)) {
-            System.out.println("A Role with name " + role.getName() + " already exist");
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setLocation(ucBuilder.path("/category/{id}").buildAndExpand(category.getId()).toUri());
-        return new ResponseEntity<>(service.saveRole(role), HttpStatus.CREATED);
+//        if (service.isCategoryExist(role)) {
+//            System.out.println("A Role with name " + role.getName() + " already exist");
+//            return new ResponseEntity<>(HttpStatus.CONFLICT);
+//        }
+        service.saveRole(role);
+        return "redirect:/admin/roles";
     }
 
     @DeleteMapping("role/delete/{id}")
@@ -74,20 +85,28 @@ public class RoleController {
         service.deleteRole(id);
         return new ResponseEntity<Role>(HttpStatus.NO_CONTENT);
     }
+    @GetMapping("role/details/{id}")
+    public String detailCategory(@PathVariable int id, Model model)
+    {
+        System.out.println("role_update " + id);
+        model.addAttribute("role",service.getRoleById(id));
+        return "admin/update_role";
+    }
 
-    @PutMapping("role/update/{id}")
-    public ResponseEntity<Role>  updateRole(@PathVariable int id, @RequestBody Role role) {
+    @PostMapping("role/update/{id}")
+    public String  updateRole(@RequestParam("id") int id, @ModelAttribute("role") Role role) {
 
         System.out.println("Updating Role " + id);
 
-        Role currentRole = service.getRoleById(id);
-//        System.out.println("---"+currentCategory);
-        if (currentRole==null) {
-            System.out.println("Role with id " + id + " not found");
-            return new ResponseEntity<Role>(HttpStatus.NOT_FOUND);
-        }
+//        Role currentRole = service.getRoleById(id);
+//        if (currentRole==null) {
+//            System.out.println("Role with id " + id + " not found");
+//            return new ResponseEntity<Role>(HttpStatus.NOT_FOUND);
+//        }
 
-        currentRole.setName(role.getName());
-        return new ResponseEntity<>(service.saveRole(currentRole), HttpStatus.OK);
+        service.saveRole(role);
+//        return new ResponseEntity<>(service.saveRole(currentRole), HttpStatus.OK);
+        return "redirect:/admin/roles"; 
+
     }
 }

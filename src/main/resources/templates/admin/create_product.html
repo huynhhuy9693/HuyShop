@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>HuyShop</title>
 </head>
 <body>
 <form th:object="${product}" th:action="@{/admin/product/create}" method="post">
@@ -26,14 +26,7 @@
             <td>IMG</td>
             <td><input type="file" th:field="*{img_url}"></td>
         </tr>
-        <tr>
-            <td>STATUS</td>
-            <td><select th:field="*{status}">
-                <option th:value="1" >Active</option>
-                <option th:value="0">Not Active</option>
-            </select>
-            </td>
-        </tr>
+
         <tr>
             <td>CATEGORY</td>
             <td >

@@ -8,15 +8,15 @@
     <title>HuyShop</title>
 </head>
 <body>
-    <form th:object="${category}" th:action="@{/admin/category/create}" method="post">
-        <table>
-            <tr>
-                <td>NAME</td>
-                <td><input type="text" th:field="*{name}"></td>
-            </tr>
-        </table>
-        <button type="submit" value="add">add</button>
-        <button type="reset" value="reset">reset</button>
-    </form>
+<form th:object="${role}" th:action="@{/admin/role/create}" method="post">
+    <table>
+        <tr>
+            <td>NAME</td>
+            <td><input type="text" th:field="*{name}"></td>
+        </tr>
+    </table>
+    <button type="submit" value="add">add</button>
+    <button type="reset" value="reset">reset</button>
+</form>
 </body>
 </html>

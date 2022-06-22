@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -33,6 +34,7 @@ public class Product {
     @Column(name = "quantity")
     private int quantity;
 
+    @ColumnDefault("true")
     @Column(name ="status")
     private boolean status;
 
@@ -45,7 +47,12 @@ public class Product {
     private Category category;
 
 
-
+    @PrePersist
+    void onPrePersist() {
+        if (status==false) {
+            status=true;
+        }
+    }
 
 
 

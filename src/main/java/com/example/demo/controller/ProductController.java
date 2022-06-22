@@ -65,7 +65,7 @@ public class ProductController {
     }
 
     @PostMapping("product/create")
-    public String  createProduct( Model model,@ModelAttribute("product") Product product )
+    public String  createProduct( @ModelAttribute("product") Product product )
     {
 
         System.out.println("Creating Product " +product.getName());
@@ -80,8 +80,8 @@ public class ProductController {
 //        ProductDTO productResponse = modelMapper.map(product, ProductDTO.class);
 //        return new ResponseEntity<ProductDTO>(productResponse, HttpStatus.CREATED);
 //        model.addAttribute("categories", categoryService.getCategories());
-        service.saveProduct(product);
-        return "redirect:/admin/products";
+            service.saveProduct(product);
+            return "redirect:/admin/products";
     }
 
     @GetMapping ("product/delete/{id}")
@@ -111,7 +111,7 @@ public class ProductController {
 
         System.out.println("Updating Product " + id);
 
-        Product currentProduct = service.getProductById(id);
+//        Product currentProduct = service.getProductById(id);
 //        if (currentProduct==null) {
 //            System.out.println("Product with id " + id + " not found");
 //            return new ResponseEntity<ProductDTO>(HttpStatus.NOT_FOUND);

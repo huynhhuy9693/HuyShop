@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -21,6 +22,7 @@ public class UserTb {
     private Long id;
     @Column(name = "name")
     String name;
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     @Column(name = "dob")
     Date dob;
     @Column(name = "phone")
@@ -46,5 +48,11 @@ public class UserTb {
 //    @OneToOne(mappedBy = "user")
 //    private Cart cart;
 
+    @PrePersist
+    void onPrePersist() {
+        if (status==false) {
+            status=true;
+        }
+    }
 
 }

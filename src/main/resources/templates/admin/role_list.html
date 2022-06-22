@@ -8,28 +8,20 @@
     <title>HuyShop</title>
 </head>
 <body>
-<h1>PRODUCTS-LIST</h1>
-<a th:href="@{/admin/create_product}">add new </a>
+<h1>ROLE-LIST</h1>
+<a th:href="@{/admin/create_role}">add new </a>
 <table border="1">
     <tr>
         <td>ID</td>
         <td>NAME</td>
-        <td>PRICE</td>
-        <td>IMG</td>
-        <td>QUANTITY</td>
         <td>STATUS</td>
-        <td>CATEGORY</td>
         <td>ACTION</td>
     </tr>
-    <tr th:each="item : ${products}">
+    <tr th:each="item : ${roles}">
         <td th:text="${item.id}"></td>
         <td th:text="${item.name} "></td>
-        <td th:text="${item.price} "></td>
-        <td><img th:src="${item.img_url}" width="150px" height="165px"></td>
-        <td th:text="${item.quantity} "></td>
         <td th:text="${item.status}? 'Active':'Not Active' "></td>
-        <td th:text="${item.category.name}"></td>
-        <td><a th:href="@{|/admin/product/details/${item.id}|}">update</a></td>
+        <td><a th:href="@{|/admin/role/details/${item.id}|}">update</a></td>
     </tr>
 </table>
 </body>
